@@ -1,0 +1,50 @@
+version: '3'
+services:
+  db:
+    image: postgres:12.7
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: "dmHRhUsLVVvNB3w"
+      version: "3.9"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: "2s"
+    ports:
+      - 5435:5432
+  redis:
+    image: redis:6.2
+    restart: always
+    healthcheck:
+      test: [ "CMD", "redis-cli", "--raw", "incr", "ping" ]
+      interval: "2s"
+  web:
+    build: &web_build
+      context: .
+    command: "./bin/dev"
+    env_file: .env
+    environment: &web_env
+      DB_HOST: db
+      DB_USERNAME: postgres
+      DB_PASSWORD: dmHRhUsLVVvNB3w
+      REDIS_URL: redis://redis:6379
+      BROWSER: /dev/null
+      PIDFILE: /tmp/pids/server.pid
+      TZ: Europe/London
+      NEW_RELIC_ENABLED: false
+      APP_STAGE: development
+      RAILS_ENV: development
+      BUNDLE_DEPLOYMENT: 0
+    volumes: &web_vol
+      - .:/app
+      - ./pryrc:/root/.pryrc
+    tmpfs:
+      - /tmp/pids/
+    ports:
+      - 3010:3010
+    depends_on:
+      redis:
+        condition: service_healthy
+      db:
+        condition: service_healthy
+    tty: true
+    stdin_open: true
