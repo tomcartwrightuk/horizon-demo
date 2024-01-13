@@ -1,15 +1,27 @@
 <p style="color: green"><%= notice %></p>
 
-<h1 class="text-lg">Branch cash transactions</h1>
+<h1 class="text-lg">Tom's PO Branch: Cash transactions ledger</h1>
 
-<div id="branch_cash_transactions">
-  <% @branch_cash_transactions.each do |branch_cash_transaction| %>
-    <%= render branch_cash_transaction %>
-    <p>
-      <%= link_to "Show this branch cash transaction", branch_cash_transaction %>
-    </p>
-  <% end %>
+<table class="mt-12 w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+  <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+    <tr>
+      <th class="px-6 py-3">Description</th>
+      <th class="px-6 py-3">Key</th>
+      <th class="px-6 py-3">Amount</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @branch_cash_transactions.each do |transaction| %>
+      <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+        <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"><%= transaction.description %></td>
+        <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"><%= transaction.transaction_key[0..5] %></td>
+        <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">£<%= transaction.amount %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<div class="mt-12">
+  <%= link_to "Withdraw money", new_branch_cash_transaction_path, class: "bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded inline-block" %><br />
+  <%= link_to "Reset", reset_demo_path, class: "border-slate-200 hover:bg-red-300 border-2 py-1 px-2 rounded inline-block mt-4" %>
 </div>
-
-<%= link_to "New branch cash transaction", new_branch_cash_transaction_path %>
-<%= link_to "Reset demo", reset_demo_path %>
