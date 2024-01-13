@@ -1,6 +1,8 @@
 <p style="color: green"><%= notice %></p>
+<%= link_to "Reset", reset_demo_path, class: "hover:bg-red-300 text-slate-500 rounded inline-block fixed top-2 right-2" %>
 
-<h1 class="text-lg">Tom's PO Branch: Cash transactions ledger</h1>
+<%= image_tag "post-office-logo.png", class: "w-24 ml-[-12px]" %>
+<h1 class="text-lg ml-2 mt-4">Priory Post Office: Cash ledger</h1>
 
 <table class="mt-12 w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
   <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
@@ -22,6 +24,5 @@
 </table>
 
 <div class="mt-12">
-  <%= link_to "Withdraw money", new_branch_cash_transaction_path, class: "bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded inline-block" %><br />
-  <%= link_to "Reset", reset_demo_path, class: "border-slate-200 hover:bg-red-300 border-2 py-1 px-2 rounded inline-block mt-4" %>
+  <%= link_to "Withdraw money", new_branch_cash_transaction_path, class: "bg-emerald-500 hover:bg-emerald-700 mx-auto text-white py-2 px-4 rounded inline-block" %><br />
 </div>
