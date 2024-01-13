@@ -1,14 +1,54 @@
 <p style="color: green"><%= notice %></p>
 
-<h1>Horizon cash transactions</h1>
+<h1 class="text-4xl mx-auto font-bold underline text-center mt-4">Horizon</h1>
+<h2 class="text-lg mx-auto text-center mt-2">Back-office system</h2>
 
-<div id="horizon_cash_transactions">
-  <% @horizon_cash_transactions.each do |horizon_cash_transaction| %>
-    <%= render horizon_cash_transaction %>
-    <p>
-      <%= link_to "Show this horizon cash transaction", horizon_cash_transaction %>
-    </p>
-  <% end %>
+<h3 class="text-lg mx-auto font-bold text-center mt-8">Back-office ledger for Priory Post office</h3>
+
+<div class="flex columns-2 gap-8 mt-12">
+  <div>
+    <h4 class="font-bold">Branch cash transactions</h4>
+    <table class="mt-4 w-full text-sm text-left rtl:text-right text-gray-500">
+      <thead class="text-xs text-gray-700 uppercase bg-gray-200">
+        <tr>
+          <th class="px-6 py-3">Description</th>
+          <th class="px-6 py-3">Key</th>
+          <th class="px-6 py-3">Amount</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @horizon_cash_transactions.each do |transaction| %>
+          <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+            <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"><%= transaction.description %></td>
+            <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"><%= transaction.transaction_key[0..5] %></td>
+            <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"><%= amount_with_sign(transaction.amount) %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+
+  <div>
+    <h4 class="font-bold">Bank system transactions</h4>
+    <table class="mt-4 w-full text-sm text-left rtl:text-right text-gray-500">
+      <thead class="text-xs text-gray-700 uppercase bg-gray-200">
+        <tr>
+          <th class="px-6 py-3">Description</th>
+          <th class="px-6 py-3">Key</th>
+          <th class="px-6 py-3">Amount</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @horizon_cash_transactions.each do |transaction| %>
+          <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+            <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"><%= transaction.description %></td>
+            <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"><%= transaction.transaction_key[0..5] %></td>
+            <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"><%= amount_with_sign(transaction.amount) %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
 </div>
 
 <%= link_to "New horizon cash transaction", new_horizon_cash_transaction_path %>
