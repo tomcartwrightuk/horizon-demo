@@ -1,0 +1,32 @@
+<%= form_with(model: horizon_bank_transaction) do |form| %>
+  <% if horizon_bank_transaction.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(horizon_bank_transaction.errors.count, "error") %> prohibited this horizon_bank_transaction from being saved:</h2>
+
+      <ul>
+        <% horizon_bank_transaction.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= form.label :description, style: "display: block" %>
+    <%= form.text_field :description %>
+  </div>
+
+  <div>
+    <%= form.label :amount, style: "display: block" %>
+    <%= form.number_field :amount %>
+  </div>
+
+  <div>
+    <%= form.label :transaction_key, style: "display: block" %>
+    <%= form.text_field :transaction_key %>
+  </div>
+
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>

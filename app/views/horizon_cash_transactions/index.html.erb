@@ -1,0 +1,14 @@
+<p style="color: green"><%= notice %></p>
+
+<h1>Horizon cash transactions</h1>
+
+<div id="horizon_cash_transactions">
+  <% @horizon_cash_transactions.each do |horizon_cash_transaction| %>
+    <%= render horizon_cash_transaction %>
+    <p>
+      <%= link_to "Show this horizon cash transaction", horizon_cash_transaction %>
+    </p>
+  <% end %>
+</div>
+
+<%= link_to "New horizon cash transaction", new_horizon_cash_transaction_path %>

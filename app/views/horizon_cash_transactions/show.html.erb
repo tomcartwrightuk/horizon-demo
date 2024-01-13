@@ -1,0 +1,10 @@
+<p style="color: green"><%= notice %></p>
+
+<%= render @horizon_cash_transaction %>
+
+<div>
+  <%= link_to "Edit this horizon cash transaction", edit_horizon_cash_transaction_path(@horizon_cash_transaction) %> |
+  <%= link_to "Back to horizon cash transactions", horizon_cash_transactions_path %>
+
+  <%= button_to "Destroy this horizon cash transaction", @horizon_cash_transaction, method: :delete %>
+</div>

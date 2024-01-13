@@ -1,0 +1,1 @@
+json.partial! "horizon_cash_transactions/horizon_cash_transaction", horizon_cash_transaction: @horizon_cash_transaction

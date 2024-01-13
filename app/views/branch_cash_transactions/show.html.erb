@@ -1,0 +1,10 @@
+<p style="color: green"><%= notice %></p>
+
+<%= render @branch_cash_transaction %>
+
+<div>
+  <%= link_to "Edit this branch cash transaction", edit_branch_cash_transaction_path(@branch_cash_transaction) %> |
+  <%= link_to "Back to branch cash transactions", branch_cash_transactions_path %>
+
+  <%= button_to "Destroy this branch cash transaction", @branch_cash_transaction, method: :delete %>
+</div>

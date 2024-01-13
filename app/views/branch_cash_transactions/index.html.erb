@@ -1,0 +1,15 @@
+<p style="color: green"><%= notice %></p>
+
+<h1 class="text-lg">Branch cash transactions</h1>
+
+<div id="branch_cash_transactions">
+  <% @branch_cash_transactions.each do |branch_cash_transaction| %>
+    <%= render branch_cash_transaction %>
+    <p>
+      <%= link_to "Show this branch cash transaction", branch_cash_transaction %>
+    </p>
+  <% end %>
+</div>
+
+<%= link_to "New branch cash transaction", new_branch_cash_transaction_path %>
+<%= link_to "Reset demo", reset_demo_path %>

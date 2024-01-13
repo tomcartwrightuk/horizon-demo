@@ -1,0 +1,2 @@
+class HorizonCashTransaction < ApplicationRecord
+end

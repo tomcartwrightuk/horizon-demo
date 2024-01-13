@@ -1,0 +1,2 @@
+class BranchCashTransaction < ApplicationRecord
+end
