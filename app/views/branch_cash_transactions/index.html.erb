@@ -1,11 +1,12 @@
 <p style="color: green"><%= notice %></p>
 <%= link_to "Reset", reset_demo_path, class: "hover:bg-red-300 text-slate-500 rounded inline-block fixed top-2 right-2" %>
 
-<%= image_tag "post-office-logo.png", class: "w-24 ml-[-12px]" %>
-<h1 class="text-lg ml-2 mt-4">Priory Post Office: Cash ledger</h1>
+<%= image_tag "post-office-logo.png", class: "w-24 mx-auto" %>
+<h1 class="text-xl mx-auto font-bold text-center mt-4">Priory Post Office</h1>
+<h2 class="text-m mx-auto text-center mt-12">Cash ledger</h2>
 
-<table class="mt-12 w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-  <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+<table class="mt-4 w-full text-sm text-left rtl:text-right text-gray-500">
+  <thead class="text-xs text-gray-700 uppercase bg-gray-200">
     <tr>
       <th class="px-6 py-3">Description</th>
       <th class="px-6 py-3">Key</th>
@@ -17,7 +18,7 @@
       <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
         <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"><%= transaction.description %></td>
         <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"><%= transaction.transaction_key[0..5] %></td>
-        <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">£<%= transaction.amount %></td>
+        <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"><%= amount_with_sign(transaction.amount) %></td>
       </tr>
     <% end %>
   </tbody>

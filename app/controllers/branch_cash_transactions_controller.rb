@@ -1,4 +1,5 @@
 class BranchCashTransactionsController < ApplicationController
+  include MoneyHelper
   before_action :set_branch_cash_transaction, only: %i[ show edit update destroy ]
 
   # GET /branch_cash_transactions or /branch_cash_transactions.json
