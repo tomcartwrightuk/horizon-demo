@@ -11,22 +11,17 @@
     </div>
   <% end %>
 
-  <div>
-    <%= form.label :description, style: "display: block" %>
-    <%= form.text_field :description %>
+  <div class="mt-6">
+    <%= form.label :description, "Customer", style: "display: block", class: "text-lg font-bold" %>
+    <%= form.text_field :description, class: "mt-2 font-mono font-bold text-2xl" %>
   </div>
 
-  <div>
-    <%= form.label :amount, style: "display: block" %>
-    <%= form.number_field :amount %>
+  <div class="mt-6">
+    <%= form.label :amount, style: "display: block", class: "text-lg font-bold" %>
+    <%= form.number_field :amount, class: "mt-2 font-mono font-bold text-2xl" %>
   </div>
 
-  <div>
-    <%= form.label :transaction_key, style: "display: block" %>
-    <%= form.text_field :transaction_key %>
-  </div>
-
-  <div>
-    <%= form.submit %>
+  <div class="bg-rose-600 text-white px-4 py-2 rounded mt-8 w-min">
+    <%= form.submit "Withdraw" %>
   </div>
 <% end %>

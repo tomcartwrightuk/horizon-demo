@@ -29,7 +29,7 @@ class BranchCashTransactionsController < ApplicationController
         description: branch_cash_transaction_params[:description],
         transaction_key: key
       )
-      raise "Invalid transaction key" if BranchCashTransaction.count > 2
+      # raise "Invalid transaction key" if BranchCashTransaction.count > 2
       HorizonBankTransaction.create!(
         amount: branch_cash_transaction_params[:amount].to_i,
         description: branch_cash_transaction_params[:description],
