@@ -5,7 +5,7 @@ class BranchCashTransactionsController < ApplicationController
   # GET /branch_cash_transactions or /branch_cash_transactions.json
   def index
     @branch_cash_transactions = BranchCashTransaction.all
-    @total = BranchCashTransaction.pluck(:amount)&.reduce(:+) || 0
+    @total = branch_total
   end
 
   # GET /branch_cash_transactions/1 or /branch_cash_transactions/1.json
@@ -25,22 +25,28 @@ class BranchCashTransactionsController < ApplicationController
   def create
     ActiveRecord::Base.transaction do
       key = SecureRandom.hex(5)
+      amount = branch_cash_transaction_params[:amount].to_i
+      branch_cash_amount = [branch_total, amount].min
       @branch_cash_transaction = BranchCashTransaction.new(
-        amount: -branch_cash_transaction_params[:amount].to_i,
+        amount: -branch_cash_amount.to_i,
         description: branch_cash_transaction_params[:description],
         transaction_key: key
       )
-      # raise "Invalid transaction key" if BranchCashTransaction.count > 2
-      HorizonBankTransaction.create!(
-        amount: branch_cash_transaction_params[:amount].to_i,
-        description: branch_cash_transaction_params[:description],
-        transaction_key: key
-      )
-      HorizonCashTransaction.create!(
-        amount: -branch_cash_transaction_params[:amount].to_i,
-        description: branch_cash_transaction_params[:description],
-        transaction_key: key
-      )
+      begin
+        raise "Invalid transaction key" if BranchCashTransaction.count > 2
+        HorizonBankTransaction.create!(
+          amount: -amount.to_i,
+          description: branch_cash_transaction_params[:description],
+          transaction_key: key
+        )
+        HorizonCashTransaction.create!(
+          amount: amount.to_i,
+          description: branch_cash_transaction_params[:description],
+          transaction_key: key
+        )
+      rescue
+        Rails.logger.error("Transaction failed")
+      end
     end
 
 
@@ -95,5 +101,9 @@ class BranchCashTransactionsController < ApplicationController
     # Only allow a list of trusted parameters through.
     def branch_cash_transaction_params
       params.require(:branch_cash_transaction).permit(:description, :amount, :transaction_key)
+    end
+
+    def branch_total
+      BranchCashTransaction.sum(:amount)
     end
 end
