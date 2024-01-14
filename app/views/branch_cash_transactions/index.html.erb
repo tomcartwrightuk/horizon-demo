@@ -5,7 +5,7 @@
 <h1 class="text-xl mx-auto font-bold text-center mt-4">Priory Post Office</h1>
 <h2 class="text-m mx-auto text-center mt-12">Cash ledger</h2>
 
-<table class="mt-4 w-full text-sm text-left rtl:text-right text-gray-500">
+<table class="mt-4 text-sm text-left rtl:text-right text-gray-500 w-[500px]">
   <thead class="text-xs text-gray-700 uppercase bg-gray-200">
     <tr>
       <th class="px-6 py-3">Description</th>
@@ -15,12 +15,17 @@
   </thead>
   <tbody>
     <% @branch_cash_transactions.each do |transaction| %>
-      <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+      <tr class="bg-white border-b">
         <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"><%= transaction.description %></td>
         <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"><%= transaction.transaction_key[0..5] %></td>
         <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"><%= amount_with_sign(transaction.amount) %></td>
       </tr>
     <% end %>
+    <tr class="border-t-2 border-gray-700 bg-gray-100">
+      <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">Cash position</td>
+      <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"></td>
+      <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"><%= amount_with_sign(@total) %></td>
+    </tr>
   </tbody>
 </table>
 

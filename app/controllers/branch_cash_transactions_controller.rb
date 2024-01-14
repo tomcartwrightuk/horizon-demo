@@ -5,6 +5,7 @@ class BranchCashTransactionsController < ApplicationController
   # GET /branch_cash_transactions or /branch_cash_transactions.json
   def index
     @branch_cash_transactions = BranchCashTransaction.all
+    @total = BranchCashTransaction.pluck(:amount)&.reduce(:+) || 0
   end
 
   # GET /branch_cash_transactions/1 or /branch_cash_transactions/1.json
@@ -72,9 +73,6 @@ class BranchCashTransactionsController < ApplicationController
     HorizonBankTransaction.destroy_all
     HorizonCashTransaction.destroy_all
     HorizonCashTransaction.create(description: "Opening balance", amount: 1000, transaction_key: SecureRandom.hex(5))
-    key = SecureRandom.hex(5)
-    HorizonCashTransaction.create(description: "Cash supply to Tom's PO", amount: -500, transaction_key: key)
-    BranchCashTransaction.create(description: "Cash supply from central office", amount: 500, transaction_key: key)
     redirect_to branch_cash_transactions_url, notice: "Demo reset"
   end
 

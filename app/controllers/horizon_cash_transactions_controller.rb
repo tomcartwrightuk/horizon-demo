@@ -13,7 +13,21 @@ class HorizonCashTransactionsController < ApplicationController
 
   # GET /horizon_cash_transactions/new
   def new
-    @horizon_cash_transaction = HorizonCashTransaction.new
+    amount = 500
+    key = SecureRandom.hex(5)
+    if BranchCashTransaction.count == 0
+      HorizonCashTransaction.create!(
+        amount: -amount,
+        description: "Cash supply to Priory Branch",
+        transaction_key: key
+      )
+      BranchCashTransaction.create!(
+        amount: amount,
+        description: "Cash supply from central office",
+        transaction_key: key
+      )
+    end
+    render :new
   end
 
   # GET /horizon_cash_transactions/1/edit
