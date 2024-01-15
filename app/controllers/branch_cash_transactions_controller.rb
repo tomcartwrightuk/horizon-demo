@@ -26,26 +26,20 @@ class BranchCashTransactionsController < ApplicationController
     ActiveRecord::Base.transaction do
       key = SecureRandom.hex(5)
       amount = branch_cash_transaction_params[:amount].to_i
-      branch_cash_amount = [branch_total, amount].min
+      is_deposit = ActiveModel::Type::Boolean.new.cast(branch_cash_transaction_params[:deposit])
+      branch_cash_amount = (is_deposit ? amount : [branch_total, amount].min)
+
       @branch_cash_transaction = BranchCashTransaction.new(
-        amount: -branch_cash_amount.to_i,
+        amount: is_deposit ? amount : -branch_cash_amount,
         description: branch_cash_transaction_params[:description],
         transaction_key: key
       )
+
       begin
-        raise "Invalid transaction key" if BranchCashTransaction.count > 2
-        HorizonBankTransaction.create!(
-          amount: -amount.to_i,
-          description: branch_cash_transaction_params[:description],
-          transaction_key: key
-        )
-        HorizonCashTransaction.create!(
-          amount: amount.to_i,
-          description: branch_cash_transaction_params[:description],
-          transaction_key: key
-        )
-      rescue
-        Rails.logger.error("Transaction failed")
+        create_horizon_record(amount: amount, is_deposit: , description: branch_cash_transaction_params[:description], key:)
+        create_bank_record(amount: branch_cash_amount, is_deposit:, description: branch_cash_transaction_params[:description], key:)
+      rescue => e
+        Rails.logger.error("Transaction failed #{e}")
       end
     end
 
@@ -78,7 +72,6 @@ class BranchCashTransactionsController < ApplicationController
     BranchCashTransaction.destroy_all
     HorizonBankTransaction.destroy_all
     HorizonCashTransaction.destroy_all
-    HorizonCashTransaction.create(description: "Opening balance", amount: 1000, transaction_key: SecureRandom.hex(5))
     redirect_to branch_cash_transactions_url, notice: "Demo reset"
   end
 
@@ -100,10 +93,26 @@ class BranchCashTransactionsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def branch_cash_transaction_params
-      params.require(:branch_cash_transaction).permit(:description, :amount, :transaction_key)
+      params.require(:branch_cash_transaction).permit(:description, :amount, :transaction_key, :deposit)
     end
 
     def branch_total
       BranchCashTransaction.sum(:amount)
+    end
+
+    def create_horizon_record(amount:, is_deposit:, description:, key:)
+      HorizonCashTransaction.create!(
+        amount: is_deposit ? -amount : amount,
+        description: description,
+        transaction_key: key
+      )
+    end
+
+    def create_bank_record(amount:, is_deposit:, description:, key:)
+      HorizonBankTransaction.create!(
+        amount: is_deposit ? amount : -amount,
+        description: description,
+        transaction_key: key
+      )
     end
 end

@@ -33,6 +33,7 @@
   </tbody>
 </table>
 
-<div class="mt-12">
-  <%= link_to "Withdraw money", new_branch_cash_transaction_path, class: "bg-emerald-500 hover:bg-emerald-700 mx-auto text-white py-2 px-4 rounded inline-block" %><br />
+<div class="mt-12 flex justify-center">
+  <%= link_to "➖ Withdraw money", new_branch_cash_transaction_path, class: "text-gray-700 hover:bg-blue-200 py-2 px-4 rounded inline-block" %>
+  <%= link_to "➕ Deposit money", new_branch_cash_transaction_path(deposit: true), class: "text-gray-700 hover:bg-blue-200 py-2 px-4 rounded inline-block" %>
 </div>
