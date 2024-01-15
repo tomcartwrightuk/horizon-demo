@@ -23,12 +23,12 @@ class BranchCashTransactionsController < ApplicationController
 
   # POST /branch_cash_transactions or /branch_cash_transactions.json
   def create
+    key = SecureRandom.hex(5)
+    amount = branch_cash_transaction_params[:amount].to_i
+    is_deposit = ActiveModel::Type::Boolean.new.cast(branch_cash_transaction_params[:deposit])
+    branch_cash_amount = (is_deposit ? amount : [branch_total, amount].min)
+    
     ActiveRecord::Base.transaction do
-      key = SecureRandom.hex(5)
-      amount = branch_cash_transaction_params[:amount].to_i
-      is_deposit = ActiveModel::Type::Boolean.new.cast(branch_cash_transaction_params[:deposit])
-      branch_cash_amount = (is_deposit ? amount : [branch_total, amount].min)
-
       @branch_cash_transaction = BranchCashTransaction.new(
         amount: is_deposit ? amount : -branch_cash_amount,
         description: branch_cash_transaction_params[:description],
@@ -46,13 +46,21 @@ class BranchCashTransactionsController < ApplicationController
 
     respond_to do |format|
       if @branch_cash_transaction.save
-        format.html { redirect_to branch_cash_transactions_url }
+        format.html { redirect_to :confirm_transaction, transaction_key: key }
         format.json { render :show, status: :created, location: @branch_cash_transaction }
       else
         format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @branch_cash_transaction.errors, status: :unprocessable_entity }
       end
     end
+  end
+
+  def confirm_transaction
+  end
+
+  def cancel_transaction
+    BranchCashTransaction.last.destroy!
+    redirect_to branch_cash_transactions_url, notice: "Transaction cancelled"
   end
 
   # PATCH/PUT /branch_cash_transactions/1 or /branch_cash_transactions/1.json
