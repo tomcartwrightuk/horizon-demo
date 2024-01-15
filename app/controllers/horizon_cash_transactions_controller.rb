@@ -4,7 +4,7 @@ class HorizonCashTransactionsController < ApplicationController
   # GET /horizon_cash_transactions or /horizon_cash_transactions.json
   def index
     @horizon_cash_transactions = HorizonCashTransaction.all
-    @horizon_bank_transactions = HorizonBankTransaction.all
+    @total = HorizonBankTransaction.sum(&:amount)
   end
 
   # GET /horizon_cash_transactions/1 or /horizon_cash_transactions/1.json

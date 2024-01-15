@@ -1,0 +1,2 @@
+module HorizonCashTransactionsHelper
+end

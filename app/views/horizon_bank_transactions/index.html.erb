@@ -1,0 +1,12 @@
+<% content_for :title do %>
+  Big British Bank: Transaction log
+<% end %>
+
+<p style="color: green"><%= notice %></p>
+<%= image_tag "bbb_logo.png", class: "w-72 mx-auto" %>
+
+<h2 class="text-lg mx-auto font-bold text-center mt-8">Transaction log</h2>
+
+<div class="mt-12">
+  <%= render "shared/record_table", records: @horizon_bank_transactions, total_text: "Total" %>
+</div>

@@ -1,0 +1,23 @@
+<table class="mt-4 text-sm text-left rtl:text-right text-gray-500 w-[500px]">
+  <thead class="text-xs text-gray-700 uppercase bg-gray-200">
+    <tr>
+      <th class="px-6 py-3">Description</th>
+      <th class="px-6 py-3">Key</th>
+      <th class="px-6 py-3">Amount</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% records.each do |transaction| %>
+      <tr class="bg-white border-b">
+        <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"><%= transaction.description %></td>
+        <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"><%= transaction.transaction_key[0..5] %></td>
+        <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"><%= amount_with_sign(transaction.amount) %></td>
+      </tr>
+    <% end %>
+    <tr class="border-t-2 border-gray-700 bg-gray-100">
+      <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"><%= total_text %></td>
+      <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"></td>
+      <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"><%= amount_with_sign(@total) %></td>
+    </tr>
+  </tbody>
+</table>

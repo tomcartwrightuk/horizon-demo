@@ -1,0 +1,2 @@
+module BranchCashTransactionsHelper
+end
