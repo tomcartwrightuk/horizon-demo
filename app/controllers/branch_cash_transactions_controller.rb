@@ -60,6 +60,7 @@ class BranchCashTransactionsController < ApplicationController
 
   def cancel_transaction
     BranchCashTransaction.last.destroy!
+    HorizonBankTransaction.last.destroy!
     redirect_to branch_cash_transactions_url, notice: "Transaction cancelled"
   end
 
@@ -116,11 +117,13 @@ class BranchCashTransactionsController < ApplicationController
     end
 
     def create_horizon_record(amount:, is_deposit:, description:, key:)
-      HorizonCashTransaction.create!(
-        amount: is_deposit ? -amount : amount,
-        description: description,
-        transaction_key: key
-      )
+      HTTParty.post("http://horizon:3011/horizon_cash_transactions", body: {
+        horizon_cash_transaction: {
+          amount: is_deposit ? -amount : amount,
+          description: description,
+          transaction_key: key
+        }
+      })
     end
 
     def create_bank_record(amount:, is_deposit:, description:, key:)

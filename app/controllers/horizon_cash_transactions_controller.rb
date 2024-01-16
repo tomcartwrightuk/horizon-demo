@@ -1,5 +1,6 @@
 class HorizonCashTransactionsController < ApplicationController
   before_action :set_horizon_cash_transaction, only: %i[ show edit update destroy ]
+  skip_before_action :verify_authenticity_token, only: [:create, :destroy]
 
   # GET /horizon_cash_transactions or /horizon_cash_transactions.json
   def index

@@ -76,5 +76,6 @@ Rails.application.configure do
 
   config.hosts << "priory-post-office.test"
   config.hosts << "horizon.test"
+  config.hosts << "horizon"
   config.hosts << "big-british-bank.test"
 end
