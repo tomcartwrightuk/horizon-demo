@@ -3,6 +3,7 @@ Rails.application.routes.draw do
   resources :horizon_cash_transactions
   resources :branch_cash_transactions
   get "/reset_demo" => "branch_cash_transactions#reset_demo"
+  get "/reconcile_accounts" => "branch_cash_transactions#reconcile_accounts"
   get "/cancel_transaction" => "branch_cash_transactions#cancel_transaction"
   get "/confirm_transaction" => "branch_cash_transactions#confirm_transaction"
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html

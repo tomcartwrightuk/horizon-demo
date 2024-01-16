@@ -63,6 +63,13 @@ class BranchCashTransactionsController < ApplicationController
     redirect_to branch_cash_transactions_url, notice: "Transaction cancelled"
   end
 
+  def reconcile_accounts
+    @branch_cash_transactions = BranchCashTransaction.all
+    @horizon_cash_transactions = HorizonCashTransaction.all
+    @cash_total = branch_total
+    @horizon_total = HorizonCashTransaction.sum(:amount)
+  end
+
   # PATCH/PUT /branch_cash_transactions/1 or /branch_cash_transactions/1.json
   def update
     respond_to do |format|

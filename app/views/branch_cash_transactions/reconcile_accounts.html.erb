@@ -1,0 +1,41 @@
+<% content_for :title do %>
+  Branch reconciliation
+<% end %>
+
+<%= link_to "← Back to branch", branch_cash_transactions_path, class: "fixed top-2 left-2" %>
+
+<h2 class="text-lg font-bold text-center mt-8">Reconcile accounts</h2>
+<table class="mt-8 text-sm text-left rtl:text-right text-gray-500 w-[500px]">
+  <tbody>
+    <tr class="bg-white border-b">
+      <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">Branch cash position</td>
+      <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"><%= amount_with_sign(@cash_total) %></td>
+    </tr>
+    <tr class="bg-white border-b">
+      <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">Horizon position</td>
+      <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"><%= amount_with_sign(@horizon_total) %></td>
+    </tr>
+    <tr class="border-t-2 border-gray-700 bg-gray-100">
+      <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">Discrepancy</td>
+      <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"><%= amount_with_sign(@cash_total + @horizon_total) %></td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="mt-12">
+  <% if @cash_total + @horizon_total == 0 %>
+    <span class="font-bold">You're accounts are balanced!</span>
+  <% else %>
+    <span class="font-bold">You're accounts are <span class="text-red-600">not</span> balanced!</span><br />
+    <% if @cash_total + @horizon_total < 0 %>
+      <span class="mt-4 inline-block">You need to deposit <span class="font-bold text-red-600">£<%= -(@horizon_total + @cash_total) %></span> to ensure your cash stock matches your reported position.</span>
+    <% else %>
+      <br />We will deposit <span class="font-bold">£<%= (@horizon_total + @cash_total) %></span> to ensure you your accounts are balanced.
+    <% end %>
+  <% end %>
+</div>
+<div class="flex items-center mt-8">
+    <input checked id="checked-checkbox" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+    <label for="checked-checkbox" class="ms-2 text-gray-900 dark:text-gray-300">I agree that these accounts are correct</label>
+</div
+
