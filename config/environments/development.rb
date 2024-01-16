@@ -73,4 +73,8 @@ Rails.application.configure do
 
   # Raise error when a before_action's only/except options reference missing actions
   config.action_controller.raise_on_missing_callback_actions = true
+
+  config.hosts << "priory-post-office.test"
+  config.hosts << "horizon.test"
+  config.hosts << "big-british-bank.test"
 end

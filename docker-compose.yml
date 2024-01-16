@@ -17,7 +17,7 @@ services:
     healthcheck:
       test: [ "CMD", "redis-cli", "--raw", "incr", "ping" ]
       interval: "2s"
-  web:
+  post-office:
     build: &web_build
       context: .
     command: "./bin/dev"
@@ -41,6 +41,37 @@ services:
       - /tmp/pids/
     ports:
       - 3010:3010
+    depends_on:
+      redis:
+        condition: service_healthy
+      db:
+        condition: service_healthy
+    tty: true
+    stdin_open: true
+  horizon:
+    build: &web_build
+      context: .
+    command: "bin/rails server -p 3011 -b 0.0.0.0"
+    env_file: .env
+    environment: &web_env
+      DB_HOST: db
+      DB_USERNAME: postgres
+      DB_PASSWORD: dmHRhUsLVVvNB3w
+      REDIS_URL: redis://redis:6379
+      BROWSER: /dev/null
+      PIDFILE: /tmp/pids/server.pid
+      TZ: Europe/London
+      NEW_RELIC_ENABLED: false
+      APP_STAGE: development
+      RAILS_ENV: development
+      BUNDLE_DEPLOYMENT: 0
+    volumes: &web_vol
+      - .:/app
+      - ./pryrc:/root/.pryrc
+    tmpfs:
+      - /tmp/pids/
+    ports:
+      - 3011:3011
     depends_on:
       redis:
         condition: service_healthy
