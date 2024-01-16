@@ -117,12 +117,10 @@ class BranchCashTransactionsController < ApplicationController
     end
 
     def create_horizon_record(amount:, is_deposit:, description:, key:)
-      HTTParty.post("http://horizon:3011/horizon_cash_transactions", body: {
-        horizon_cash_transaction: {
-          amount: is_deposit ? -amount : amount,
-          description: description,
-          transaction_key: key
-        }
+      CreateHorizonRecordJob.set(wait: 1.seconds).perform_later({
+        amount: is_deposit ? -amount : amount,
+        description: description,
+        transaction_key: key
       })
     end
 

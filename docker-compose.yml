@@ -79,3 +79,31 @@ services:
         condition: service_healthy
     tty: true
     stdin_open: true
+  worker:
+    build: *web_build
+    command: "bundle exec sidekiq"
+    env_file: .env
+    environment: &web_env
+      DB_HOST: db
+      DB_USERNAME: postgres
+      DB_PASSWORD: dmHRhUsLVVvNB3w
+      REDIS_URL: redis://redis:6379
+      BROWSER: /dev/null
+      PIDFILE: /tmp/pids/server.pid
+      TZ: Europe/London
+      NEW_RELIC_ENABLED: false
+      APP_STAGE: development
+      RAILS_ENV: development
+      BUNDLE_DEPLOYMENT: 0
+    volumes: &web_vol
+      - .:/app
+      - ./pryrc:/root/.pryrc
+    tmpfs:
+      - /tmp/pids/
+    depends_on:
+      redis:
+        condition: service_healthy
+      db:
+        condition: service_healthy
+    tty: true
+    stdin_open: true
