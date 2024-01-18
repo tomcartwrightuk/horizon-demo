@@ -24,16 +24,16 @@ Logging
 ## Concepts to demo with this application and how
 
 ### Atomicity
-If you deposit exactly £50 with the name Mr X, the transaction does not register in branch account but does in horizon
+Make a deposit but cancel it. The deposit will show in horizon but not in bank and PO ledgers. Reconcile to show that the cash account is in deficit.
 
 ### Concistency
-More money than available in branch cash account - branch account shows a withdrawal of only available funds but Horizon shows intended amount.
+More money than available in branch cash account - branch account shows a withdrawal of only available funds but Horizon shows intended amount so money is owed to PO account.
 
 ### Isolation
-Something to do with report. Delay the sending of horizon transaction and then run report.
+Make a withdrawal. Change the delay for sending of horizon record and then run reconciliation report which will show discrepancy.
 
 ### Durability
-Turn off horizon server. Money is withdrawn from the PO account and bank but not horizon. Turn on the server and it sends several messages
+Turn off horizon server and deposit some money. Money will go into PO account and bank but not horizon. Turn on the Horizon server and it sends several messages resulting in many instances of that transaction.
 
 ### Roles and remote access
 Login to cash branch and change a transaction and re-run the report
